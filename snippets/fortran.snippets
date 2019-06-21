@@ -1,0 +1,53 @@
+!!
+!! This file contains cpp snippet code for my vim mapping
+!!
+!>---------------------------------------------------------------
+!> Module : Module name
+!!
+!> @author :
+!> author name and affiliation
+!!
+!> @brief
+!> Module more detailed description
+!>---------------------------------------------------------------
+Module modname
+    implicit none
+    use othemor
+contains
+    subroutine 
+    end subroutine
+End Module
+
+type object                             !< object class
+    real(kind=8)   :: Z0 = 0.0          !< type internal variable 
+contains
+procedure, pass  :: set => settype      !< set procedure for this type
+procedure :: print => printtype         !< print procedure for this type
+end type
+
+!---------------------------------------------------------------------------
+!> @author your name and affiliation
+!> @brief
+!> details.
+!> @param[inout] self
+!---------------------------------------------------------------------------
+subroutine (self,)
+    implicit none
+    class(*), intent(inout) :: self
+end subroutine 
+
+!---------------------------------------------------------------------------
+!> @author your name and affiliation
+!> @brief
+!> details.
+!> @param[inout] arg 
+!---------------------------------------------------------------------------
+subroutine (arg,)
+    implicit none
+    integer, intent(inout) :: arg
+end subroutine 
+
+program main    
+    implicit none
+    
+end program main
