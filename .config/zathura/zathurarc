@@ -1,0 +1,13 @@
+# zoom and scroll step size
+set zomm-step 20
+set scroll-step 80
+
+# copy selection to system clipboard
+set selection-clipboard clipboard
+
+# enable incremental search
+set incremental-search true
+
+# synctex activation for tex files
+set synctex true
+set synctex-editor-command "vim -G +%{line} %{input}"
