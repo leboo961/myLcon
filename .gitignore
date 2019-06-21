@@ -1,0 +1,14 @@
+#
+# git ignore file for my Linux CONfiguration
+#
+# ignoring everything in my home directory
+*
+
+# Exceptions
+#
+# begenning with my vim ignore of course
+!.gitignore
+
+# then some files in .config
+!.config/vim
+!.config/zathura
