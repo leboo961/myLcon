@@ -10,5 +10,6 @@
 !.gitignore
 
 # then some files in .config
+!.config/git
 !.config/vim
 !.config/zathura
