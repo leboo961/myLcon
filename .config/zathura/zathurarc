@@ -1,5 +1,14 @@
-# zoom and scroll step size
-set zomm-step 20
+
+# Open document in fit-width mode by default
+set adjust-open "best-fit"
+set adjust-open "full-up"
+# One page per row by default
+set pages-per-row 1
+# defines the gap in pixels between each rendered page
+set page-padding 1
+
+# setting default zoom and scroll step size
+set zoom-step 20
 set scroll-step 80
 
 # copy selection to system clipboard
@@ -11,3 +20,19 @@ set incremental-search true
 # synctex activation for tex files
 set synctex true
 set synctex-editor-command "vim -G +%{line} %{input}"
+
+#`mapping for navigation and stuff
+map u scroll half-up
+map d scroll half-down
+map v toggle_page_mode
+map r reload
+map R rotate
+map c recolor
+map p print
+# some default mapping
+# a zoom out max
+# s fit page to window
+# z fit text to window
+# vim arrow navigation
+# = zoom in
+# - zoom out
