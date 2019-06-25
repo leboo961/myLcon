@@ -11,6 +11,7 @@
 
 # then some files in .config
 #.config/*
+!.config/
 !.config/git
 !.config/vim
 !.config/zathura
