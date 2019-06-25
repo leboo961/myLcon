@@ -12,9 +12,7 @@
 # then some files in .config
 .config/*
 !.config/git/
-!.config/git/*
 !.config/screen
-!.config/screen/*
 #!.config/screen/*
 !.config/vim/
 !.config/zathura/
