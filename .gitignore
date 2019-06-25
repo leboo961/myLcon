@@ -10,7 +10,7 @@
 !.gitignore
 
 # then some files in .config
-.config/*
+.config/
 !.config/git/
 !.config/screen
 #!.config/screen/*
