@@ -1,0 +1,31 @@
+defbce "on"
+
+# Make screen messages stand out a little more - black on bright green.
+#sorendition "+d kb"
+rendition so "-bu 03"
+rendition monitor ="-b dR"
+#caption always "%{03}"
+# Run everything in UTF-8.
+defutf8 on
+# If a window goes unresponsive, don't block the whole session waiting for it.
+defnonblock on
+
+startup_message off
+# Log new screen windows in utmp.
+deflogin on
+# Never, ever turn this off.
+autodetach on
+
+defscrollback 4098
+#termcapinfo xterm* ti@:te@
+##
+
+
+#screen -t 'server' 1 bash # Make first screen for running server
+#screen -t 'specs' 2 bash # Make screen for running tests
+#screen -t 'workspace' 3 bash # Make screen for general work i.e. running git commands
+
+mousetrack on
+altscreen on
+
+rebecca I fucking love u!!!

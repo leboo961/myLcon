@@ -1,11 +1,12 @@
 # 256 color xterm
-attrcolor b ".I"
-termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
-termcapinfo xterm* ti@:te@
+#attrcolor b ".I"
+#termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+#termcapinfo xterm* ti@:te@
 defbce "on"
 
 # Make screen messages stand out a little more - black on bright green.
 sorendition "+b kG"
+rendition so =00
 
 # Run everything in UTF-8.
 defutf8 on
