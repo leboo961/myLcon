@@ -13,6 +13,7 @@ call vundle#begin()
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'joshdick/onedark.vim'                """ Atom style color scheme
 Plugin 'itchyny/lightline.vim'
+Plugin 'petrushka/vim-opencl'
 "
 "    productivity plugins
 "
