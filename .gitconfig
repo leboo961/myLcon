@@ -1,10 +1,36 @@
 [user]
 	name = Fadi EL HADDAD
 	email = fadi.haddad.dev@gmail.com
+
 [core]
-	editor = vim
+    editor = vim
+
+[rerere]
+    enabled = 1
+    autoupdate = 1
+
+[color "branch"]
+    current = yellow bold
+    local = green bold
+    remote = cyan bold
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+    whitespace = red reverse
+
+[color "status"]
+    added = green bold
+    changed = cyan bold
+    untracked = red bold
+
 [diff]
     tool = vimdiff
+
+[gitlab]
+    user = fadi-haddad-dev
 
 [alias]
     lgc = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
