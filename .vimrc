@@ -21,7 +21,9 @@ Plugin 'terryma/vim-multiple-cursors'        """ Should not rely on it much use 
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'majutsushi/tagbar'                   """ best thing similar to a minimap in vim
+"Plugin 'OmniCppComplete'
 Plugin 'scrooloose/syntastic'
+Plugin 'doxygen/doxygen'
 call vundle#end()
 "
 filetype plugin indent on       " load specific filetype detection, plugin and indent  => so later give right syntax, etc...`
@@ -72,6 +74,48 @@ set noshowmode          " disable the show mode because it is appearing in the s
 set shortmess=atToO
 set backspace=indent,eol,start
 "
+" Basic autocomplete Configuration
+"
+"set omnifunc=syntaxcomplete#Complete
+function SetCppOmnifunc()
+     "OmniCppComplete
+     set tags+=~/.vim/tags/cpp
+     set omnifunc=omni#cpp#complete#Main
+     let OmniCpp_NamespaceSearch = 1
+     let OmniCpp_GlobalScopeSearch = 1
+     let OmniCpp_ShowAccess = 1
+     let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+     let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+     let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+     let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
+     let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+     " automatically open and close the popup menu / preview window
+     au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+     set completeopt=menuone,menu,longest,preview
+endfunction
+"
+function SetPyOmnifunc()
+     "OmniCppComplete
+     "set tags+=~/.vim/tags/cpp
+     "set omnifunc=omni#cpp#complete#Main
+     "let OmniCpp_NamespaceSearch = 1
+     "let OmniCpp_GlobalScopeSearch = 1
+     "let OmniCpp_ShowAccess = 1
+     "let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+     "let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+     "let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+     "let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
+     set omnifunc=pythoncomplete#Complete
+     set completeopt=menuone,menu,longest,preview
+     "echo expand('<cword>')
+     "return command <C><C-o>
+     "if(expand('<cword>')=='.')
+         "return <C-x><C-o>
+     " automatically open and close the popup menu / preview window
+     au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+endfunction
+"
+
 " status line
 "
 let g:lightline = {
@@ -90,6 +134,7 @@ let g:lightline = {
 let g:onedark_termcolors=256
 let g:onedark_terminal_italics=1
 colorscheme onedark
+hi Normal guibg=NONE ctermbg=NONE "for a transparent background with st terminal
 set t_co=256
 set t_ut=
 "
@@ -131,6 +176,7 @@ let g:netrw_liststyle = 3
 let g:netrw_winsize   = 20
 let g:netrw_bufsettings ='rnu'
 let g:netrw_list_hide= '^\..*,.git/$'
+"let g:netrw_list_hide=  netrw_gitignore#Hide().'.*\.swp$''.git$'
 "
 " fuzzy file search
 "
@@ -138,11 +184,46 @@ set path+=**,../src,../include,src/,include/
 "
 " fuzzy file search
 "
-set tags+=**
+set tags+=**,~/.vim/tags/
+set tags+=~/.vim/tags/cpp
+set tags+=~/.vim/tags/gl
+set tags+=~/.vim/tags/sdl
+set tags+=~/.vim/tags/qt4
+"
+" autocomplete
+"
+let OmniCpp_NamespaceSearch = 1
+let OmniCpp_GlobalScopeSearch = 1
+let OmniCpp_ShowAccess = 1
+let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
+let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+set omnifunc=syntaxcomplete#Complete
+set completeopt=longest,menuone,preview
+let g:ycm_server_python_interpreter='/usr/bin/python3.7'
 "
 "
 " mapping
 "
+"
+inoremap {      {}<Left>
+inoremap {<CR>  {<CR>}<Esc>O
+inoremap {{     {
+inoremap {}     {}
+inoremap (      ()<Left>
+inoremap (<CR>  (<CR>)<Esc>O
+inoremap ((     (
+inoremap ()     ()
+inoremap '      ''<Left>
+inoremap '<CR>  '<CR>'<Esc>O
+inoremap ''     '
+inoremap ''     ''
+inoremap "      ""<Left>
+inoremap "<CR>  "<CR>"<Esc>O
+inoremap ""     {
+inoremap ""     ""
 " Ctags
 "
 nnoremap <F2> :!ctags -R .<CR><CR>
@@ -157,21 +238,21 @@ nmap <F8> :TagbarToggle<CR>
 " language snippets
 "
 "       C++
-nnoremap `cc   :-1read !sed -n -e '4,29p' snippets/cpp.snippets<CR>1kzo1jzo4jf(a
-nnoremap `cnm  :-1read !sed -n -e '31,33p' snippets/cpp.snippets<CR>1ka
-nnoremap `cm   :-1read !sed -n -e '35,39p' snippets/cpp.snippets<CR>2ka
+nnoremap `cc   :-1read !sed -n -e '4,29p'  ~/.vim/snippets/cpp.snippets<CR>1kzo1jzo4jf(a
+nnoremap `cnm  :-1read !sed -n -e '31,33p' ~/.vim/snippets/cpp.snippets<CR>1ka
+nnoremap `cm   :-1read !sed -n -e '35,39p' ~/.vim/snippets/cpp.snippets<CR>2ka
 "
 "       FORTRAN
-nnoremap `fm   :-1read !sed -n -e '4,19p' snippets/fortran.snippets<CR>4kfmdw
-nnoremap `ft   :-1read !sed -n -e '21,26p' snippets/fortran.snippets<CR>5kfo
-nnoremap `fp   :-1read !sed -n -e '28,37p' snippets/fortran.snippets<CR>2kf(i
-nnoremap `fs   :-1read !sed -n -e '39,48p' snippets/fortran.snippets<CR>2kf(i
-nnoremap `fpm  :-1read !sed -n -e '50,54p' snippets/fortran.snippets<CR>1ka
+nnoremap `fm   :-1read !sed -n -e '4,19p'  ~/.vim/snippets/fortran.snippets<CR>4kfmdw
+nnoremap `ft   :-1read !sed -n -e '21,26p' ~/.vim/snippets/fortran.snippets<CR>5kfo
+nnoremap `fp   :-1read !sed -n -e '28,37p' ~/.vim/snippets/fortran.snippets<CR>2kf(i
+nnoremap `fs   :-1read !sed -n -e '39,48p' ~/.vim/snippets/fortran.snippets<CR>2kf(i
+nnoremap `fpm  :-1read !sed -n -e '50,54p' ~/.vim/snippets/fortran.snippets<CR>1ka
 "
 "       PYTHON
-nnoremap `pyc  :-1read !sed -n -e '3,20p' snippets/python.snippets<CR>1kf(a
-nnoremap `pyf  :-1read !sed -n -e '22,26p' snippets/python.snippets<CR>1kf(a
-nnoremap `pym  :-1read !sed -n -e '28,30p' snippets/python.snippets<CR>1ka
+nnoremap `pyc  :-1read !sed -n -e '3,20p'  ~/.vim/snippets/python.snippets<CR>1kf(a
+nnoremap `pyf  :-1read !sed -n -e '22,26p' ~/.vim/snippets/python.snippets<CR>1kf(a
+nnoremap `pym  :-1read !sed -n -e '28,30p' ~/.vim/snippets/python.snippets<CR>1ka
 "
 "       spell check enable only for tex file
 "
@@ -183,6 +264,15 @@ function SetupForTex()
     set spellfile="/usr/share/hunspell/en_GB.dic" " move to word and press zg to add word to dic permanently, and use zG to add it until u close vim/ in a way to ignore the miss spelling
 endfunction
 "
+"       markdown function setup
+"
+function SetupFor_md()
+    setlocal updatetime=1
+    "set makeprg=pandoc\ %\ |&\ lynx\ -stdin
+    set spell spelllang=en_gb " en_us  " press z= to get suggestion
+    set spellfile="/usr/share/hunspell/en_GB.dic" " move to word and press zg to add word to dic permanently, and use zG to add it until u close vim/ in a way to ignore the miss spelling
+endfunction
+
 " Configuration depending on filetype
 "
 augroup configgroup
@@ -191,8 +281,12 @@ augroup configgroup
     autocmd FileType fortran setlocal ignorecase infercase
     autocmd FileType Makefile setlocal noexpandtab
     autocmd Filetype tex call SetupForTex()
+    autocmd Filetype markdown call SetupFor_md()
     autocmd FileType c,cpp,java set mps+==:;
     autocmd FileType html,cpp set mps+=<:>
     autocmd FileType pdf  nmap p :command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> - |fmt -csw78
+    au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
+    au bufnewfile,bufread,bufenter,FileType python let Omnipython_MayCompleteDot=1
     "autocmd FileType *
 augroup end
+
