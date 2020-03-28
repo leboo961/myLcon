@@ -1,0 +1,18 @@
+##
+#
+#
+#
+EXC_DIRS="{.bzr,CVS,.git,.hg,.svn,.idea,.tox}"
+GREP_OPTS="--color=auto --exclude-dir=$EXC_DIRS"
+
+alias ls='ls --color=auto'
+alias grep='grep $GREP_OPTS'
+alias egrep='egrep $GREP_OPTS'
+alias fgrep='fgrep $GREP_OPTS'
+
+
+alias cp='cp -i'        # confirm before overwriting
+alias df='df -h'        # human-readable sizes
+alias free='free -m'    # show sizes in MB
+alias more=less
+alias vp='vim -w PKGBUILD'
