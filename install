@@ -61,9 +61,13 @@ while getopts ':hgbvstz' option; do
             __check_installed vim
             [[ $? -eq 0 ]] && __make_link $abs_path/.vimrc
             ;;
-        z)
+        p)
             __check_installed zathura
             [[ $? -eq 0 ]] && __make_link $abs_path/.zathurarc
+            ;;
+        z)
+            __check_installed zsh
+            [[ $? -eq 0 ]] && __make_link $abs_path/.zshrc
             ;;
         *)
             echo -e " Please launch ${0##*/} -h or --help to show the script usage"
