@@ -25,7 +25,7 @@ __make_link(){
     [[ -e $HOME/$conf_file ]] && {
         echo "$conf_file already exists"
         echo "creating backup"
-        cp $HOME/$conf_file $HOME/$conf_file_bckup
+        mv $HOME/$conf_file $HOME/$conf_file"_bckup"
     }
     [[ -h $HOME/$conf_file ]] && rm $HOME/$conf_file
     ln -s $1 $HOME/$conf_file
@@ -36,11 +36,14 @@ usage="${0##*/} -- [-h --help]
     install dotfiles to home directory by creating symbolic links"
 
 abs_path=$(dirname $(realpath $0))
-while getopts ':hgvstz' option; do
+while getopts ':hgbvstz' option; do
     case "$option" in
         h|help)
             echo -e "$usage" >&2
             exit 1
+            ;;
+        b)
+            __make_link $abs_path/.bashrc
             ;;
         g)
             __check_installed git
