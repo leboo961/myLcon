@@ -6,7 +6,7 @@ case "$0" in
 esac
 source /etc/modules/init/bash
 #module() { eval `/usr/bin/tclsh /usr/local/Modules/libexec/modulecmd.tcl $modules_shell $*`; }
-module use ~/.modulefiles
+module use /usr/local/modulefiles
 
 # don't put duplicate lines or lines starting with space in the history.
 # ignorespace & ignoredups
@@ -173,4 +173,4 @@ ex ()
 
 # better yaourt colors
 export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1;41;5:votes=1;44:dsc=0:other=1;35"
-
+bind -x '"\C-l": clear'
