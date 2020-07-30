@@ -24,6 +24,11 @@ Plugin 'majutsushi/tagbar'                   """ best thing similar to a minimap
 "Plugin 'OmniCppComplete'
 Plugin 'scrooloose/syntastic'
 Plugin 'doxygen/doxygen'
+"
+" Autocomplete
+"
+Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+""
 call vundle#end()
 "
 filetype plugin indent on       " load specific filetype detection, plugin and indent  => so later give right syntax, etc...`
@@ -224,6 +229,12 @@ inoremap "      ""<Left>
 inoremap "<CR>  "<CR>"<Esc>O
 inoremap ""     {
 inoremap ""     ""
+"
+" easier mapping for special register copy/paste
+"
+nnoremap <leader>y "+Y
+nnoremap <leader>p "+P
+"
 " Ctags
 "
 nnoremap <F2> :!ctags -R .<CR><CR>
@@ -267,10 +278,13 @@ endfunction
 "       markdown function setup
 "
 function SetupFor_md()
+    let g:maplocalleader=";"
     setlocal updatetime=1
-    "set makeprg=pandoc\ %\ |&\ lynx\ -stdin
+    setlocal textwidth=100
+    set makeprg=pandoc\ -s\ %\ --pdf-engine=xelatex\ -o\ %:r.pdf\ &\ disown
     set spell spelllang=en_gb " en_us  " press z= to get suggestion
     set spellfile="/usr/share/hunspell/en_GB.dic" " move to word and press zg to add word to dic permanently, and use zG to add it until u close vim/ in a way to ignore the miss spelling
+    nmap <LocalLeader>m :w <bar> make<cr><cr>
 endfunction
 
 " Configuration depending on filetype
@@ -281,7 +295,8 @@ augroup configgroup
     autocmd FileType fortran setlocal ignorecase infercase
     autocmd FileType Makefile setlocal noexpandtab
     autocmd Filetype tex call SetupForTex()
-    autocmd Filetype markdown call SetupFor_md()
+    autocmd Filetype markdown  call SetupFor_md()
+    "autocmd Filetype markdown  let maplocalleader=','; call SetupFor_md()
     autocmd FileType c,cpp,java set mps+==:;
     autocmd FileType html,cpp set mps+=<:>
     autocmd FileType pdf  nmap p :command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> - |fmt -csw78
@@ -289,4 +304,13 @@ augroup configgroup
     au bufnewfile,bufread,bufenter,FileType python let Omnipython_MayCompleteDot=1
     "autocmd FileType *
 augroup end
+" opens search results in a window w/ links and highlight the matches
+set grepprg=rg\ -n
+"set grepprg=rg\ --color\ always\ -n
+command! -nargs=+ Grep execute 'silent rg! . -e <args>' | copen | execute 'silent /<args>'
+"command! -nargs=+ Grep execute 'silent grep! . -e <args>' | copen | execute 'silent /<args>'
+"command! -nargs=+ Grep execute 'silent grep! -I -r -n --exclude-dir=git --exclude *.{json,pyc} . -e <args>' | copen | execute 'silent /<args>'
+" shift-control-* Greps for the word under the cursor
+:nmap <leader>g :Grep <c-r>=expand("<cword>")<cr><cr>
 
+"let maplocalleader="\;"

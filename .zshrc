@@ -3,6 +3,7 @@
 #bindkey -D emacs
 autoload colors && colors
 autoload -Uz compinit promptinit && compinit && promptinit
+autoload predict-on
 #
 #prompt="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 #prompt+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
