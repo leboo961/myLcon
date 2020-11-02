@@ -17,8 +17,6 @@ Plugin 'petrushka/vim-opencl'
 "
 "    productivity plugins
 "
-Plugin 'terryma/vim-multiple-cursors'        """ Should not rely on it much use the dot command is better
-Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'majutsushi/tagbar'                   """ best thing similar to a minimap in vim
 "Plugin 'OmniCppComplete'
@@ -27,7 +25,7 @@ Plugin 'doxygen/doxygen'
 "
 " Autocomplete
 "
-Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+"Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 ""
 call vundle#end()
 "
@@ -305,12 +303,13 @@ augroup configgroup
     "autocmd FileType *
 augroup end
 " opens search results in a window w/ links and highlight the matches
-set grepprg=rg\ -n
-"set grepprg=rg\ --color\ always\ -n
-command! -nargs=+ Grep execute 'silent rg! . -e <args>' | copen | execute 'silent /<args>'
+"set grepprg=rg\ -n
+set grepprg=grep\ --color=always\ -n\ $*\
+"command! -nargs=+ Grep execute 'silent rg! . -e <args>' | copen | execute 'silent /<args>'
 "command! -nargs=+ Grep execute 'silent grep! . -e <args>' | copen | execute 'silent /<args>'
 "command! -nargs=+ Grep execute 'silent grep! -I -r -n --exclude-dir=git --exclude *.{json,pyc} . -e <args>' | copen | execute 'silent /<args>'
 " shift-control-* Greps for the word under the cursor
-:nmap <leader>g :Grep <c-r>=expand("<cword>")<cr><cr>
+:nmap <leader>g :grep <c-r>=expand("<cword>")<cr><cr>
 
 "let maplocalleader="\;"
+let g:maplocalleader=";"
