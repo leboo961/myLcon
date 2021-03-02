@@ -80,7 +80,7 @@ set backspace=indent,eol,start
 " Basic autocomplete Configuration
 "
 "set omnifunc=syntaxcomplete#Complete
-function SetCppOmnifunc()
+function! SetCppOmnifunc()
      "OmniCppComplete
      set tags+=~/.vim/tags/cpp
      set omnifunc=omni#cpp#complete#Main
@@ -97,7 +97,7 @@ function SetCppOmnifunc()
      set completeopt=menuone,menu,longest,preview
 endfunction
 "
-function SetPyOmnifunc()
+function! SetPyOmnifunc()
      "OmniCppComplete
      "set tags+=~/.vim/tags/cpp
      "set omnifunc=omni#cpp#complete#Main
@@ -149,6 +149,10 @@ noremap <C-l> <C-w>l
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
+tnoremap <C-l> <C-w>l
+tnoremap <C-h> <C-w>h
+tnoremap <C-j> <C-w>j
+tnoremap <C-k> <C-w>k
 "
 "
 " Mouse Configuration
@@ -228,6 +232,13 @@ inoremap "<CR>  "<CR>"<Esc>O
 inoremap ""     {
 inoremap ""     ""
 "
+" terminal mode mapping
+"
+tnoremap <Esc> <C-\><C-n>
+"nnoremap <leader>t :call ToggleTerminal()
+nnoremap <leader>t :call ToggleTerminal()<CR>
+""
+"
 " easier mapping for special register copy/paste
 "
 nnoremap <leader>y "+Y
@@ -262,10 +273,10 @@ nnoremap `fpm  :-1read !sed -n -e '50,54p' ~/.vim/snippets/fortran.snippets<CR>1
 nnoremap `pyc  :-1read !sed -n -e '3,20p'  ~/.vim/snippets/python.snippets<CR>1kf(a
 nnoremap `pyf  :-1read !sed -n -e '22,26p' ~/.vim/snippets/python.snippets<CR>1kf(a
 nnoremap `pym  :-1read !sed -n -e '28,30p' ~/.vim/snippets/python.snippets<CR>1ka
-"
+"       Function to customize some functionnalities
 "       spell check enable only for tex file
 "
-function SetupForTex()
+function! SetupForTex()
     setlocal updatetime=1
     set makeprg=pdflatex\ -synctex=1\ -interaction=nonstopmode\ %\ &&\ zathura\ %:r.pdf\ &
     "set makeprg=pdflatex\ -synctex=1\ -interaction=nonstopmode\ %\ &&\ zathura\ %:r.pdf\ line('.')\  col('.')\ &
@@ -275,7 +286,7 @@ endfunction
 "
 "       markdown function setup
 "
-function SetupFor_md()
+function! SetupFor_md()
     let g:maplocalleader=";"
     setlocal updatetime=1
     setlocal textwidth=100
@@ -284,11 +295,12 @@ function SetupFor_md()
     set spellfile="/usr/share/hunspell/en_GB.dic" " move to word and press zg to add word to dic permanently, and use zG to add it until u close vim/ in a way to ignore the miss spelling
     nmap <LocalLeader>m :w <bar> make<cr><cr>
 endfunction
-
+"
 " Configuration depending on filetype
 "
 augroup configgroup
     autocmd!
+    autocmd bufwritepost .vimrc source %
     autocmd BufWritePre * %s/\s\+$//e " Remove trailing white space
     autocmd FileType fortran setlocal ignorecase infercase
     autocmd FileType Makefile setlocal noexpandtab
