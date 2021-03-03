@@ -49,12 +49,16 @@ while getopts ':hgbvstz' option; do
             __check_installed git
             [[ $? -eq 0 ]] && __make_link $abs_path/.gitconfig
             ;;
+        m)
+            __check_installed tmux
+            [[ $? -eq 0 ]] && __make_link $abs_path/.tmux.conf
+            ;;
         s)
             __check_installed screen
             [[ $? -eq 0 ]] && __make_link $abs_path/.screenrc
             ;;
         t)
-            __check_installed tmux
+            __check_installed task
             [[ $? -eq 0 ]] && __make_link $abs_path/.tmux.conf
             ;;
         v)
