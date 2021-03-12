@@ -273,8 +273,9 @@ nnoremap `fpm  :-1read !sed -n -e '50,54p' ~/.vim/snippets/fortran.snippets<CR>1
 nnoremap `pyc  :-1read !sed -n -e '3,20p'  ~/.vim/snippets/python.snippets<CR>1kf(a
 nnoremap `pyf  :-1read !sed -n -e '22,26p' ~/.vim/snippets/python.snippets<CR>1kf(a
 nnoremap `pym  :-1read !sed -n -e '28,30p' ~/.vim/snippets/python.snippets<CR>1ka
+"
 "       Function to customize some functionnalities
-"       spell check enable only for tex file
+"       spell check enable only for tex and markdown file
 "
 function! SetupForTex()
     setlocal updatetime=1
@@ -295,6 +296,36 @@ function! SetupFor_md()
     set spellfile="/usr/share/hunspell/en_GB.dic" " move to word and press zg to add word to dic permanently, and use zG to add it until u close vim/ in a way to ignore the miss spelling
     nmap <LocalLeader>m :w <bar> make<cr><cr>
 endfunction
+"
+"       toggle terminal
+"
+function! ToggleTerminal()
+    let l:termlist = []
+    for buf in getbufinfo({'buflisted' :1})
+        let l:buftype = getbufvar(buf.bufnr,'&buftype','Error terminal not found')
+        if buftype == "terminal"
+            let termlist += [buf.bufnr]
+        endif
+    endfor
+    if len(termlist) == 0
+        execute "terminal"
+    elseif len(termlist) == 1
+        if bufwinnr(termlist[0]) == -1
+            execute "sb" .get(termlist,0)
+        else
+            execute "hide"
+        endif
+    elseif len(termlist) > 1
+        "let winid = popup_create("text", #{minwidth: '50', minheight: '20'})
+        let winid = popup_create(['text1','text2'], #{
+                        \ pos: 'botleft',
+                        \ border: [],
+                        \ padding: [0,1,0,1],
+                        \ close: 'click',
+                        \ })
+    endif
+endfunction
+"
 "
 " Configuration depending on filetype
 "
