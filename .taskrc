@@ -15,7 +15,7 @@ data.location=~/.local/share/task
 
 # default in on; nothing remove all optional output;
 # otherwise a list could be provided; see man taskrc for more details
-verbose=blank,footnote,label,new-id,new-uuid,affected,edit,special,project,sync,unwait,recur 
+verbose=blank,footnote,label,new-id,new-uuid,affected,edit,special,project,sync,unwait,recur
 hooks=on
 regex=on
 search.case.sensitive=no
@@ -33,7 +33,8 @@ recurrence.limit=1
 #include /usr/share/doc/task/rc/light-16.theme
 #include /usr/share/doc/task/rc/light-256.theme
 #include /usr/share/doc/task/rc/dark-16.theme
-include  /usr/share/doc/packages/task/rc/dark-256.theme
+include  /usr/share/doc/task/rc/dark-256.theme
+#include  /usr/share/doc/packages/task/rc/dark-256.theme
 #include /usr/share/doc/task/rc/dark-red-256.theme
 #include /usr/share/doc/task/rc/dark-green-256.theme
 #include /usr/share/doc/task/rc/dark-blue-256.theme
@@ -49,10 +50,10 @@ include  /usr/share/doc/packages/task/rc/dark-256.theme
 context.Work= +work
 context.Imperial= +work or +imperial or -personalwork or +office
 context.PersonalWork= +work and +personalwork or +personalwork or +work and -imperial
-context.Home= +repair or +cleaning 
+context.Home= +repair or +cleaning
 context.Phone&Email= +phoneCall +EmailReply +EmailWriting
 
-# Date Formattting 
+# Date Formattting
 dateformat=D-M-Y
 dateformat.report=
 dateformat.holiday=YMD
@@ -63,5 +64,7 @@ report.X.dateformat=D-M-Y
 
 # Holidays
 calendar.holidays=full
-include /usr/share/doc/packages/task/rc/holidays.en-GB.rc
-include /usr/share/doc/packages/task/rc/holidays.fr-FR.rc
+include /usr/share/doc/task/rc/holidays.en-GB.rc
+include /usr/share/doc/task/rc/holidays.fr-FR.rc
+#include /usr/share/doc/packages/task/rc/holidays.en-GB.rc
+#include /usr/share/doc/packages/task/rc/holidays.fr-FR.rc
