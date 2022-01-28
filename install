@@ -59,7 +59,7 @@ while getopts ':hgbvstz' option; do
             ;;
         t)
             __check_installed task
-            [[ $? -eq 0 ]] && __make_link $abs_path/.tmux.conf
+            [[ $? -eq 0 ]] && __make_link $abs_path/.taskrc
             ;;
         v)
             __check_installed vim
