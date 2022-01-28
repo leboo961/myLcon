@@ -16,3 +16,6 @@ alias df='df -h'        # human-readable sizes
 alias free='free -m'    # show sizes in MB
 alias more=less
 alias vp='vim -w PKGBUILD'
+
+
+alias task='task rc:~/.config/.taskrc'
