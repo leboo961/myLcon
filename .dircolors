@@ -1,0 +1,162 @@
+
+# Begin .dircolors
+# Configuration file for dircolors, a utility to help you set the
+# LS_COLORS environment variable used by GNU ls with the --color option.
+
+# Below are the color init strings for the basic file types. A color init
+# string consists of one or more of the following numeric codes:
+# Attribute codes:
+# 00 = none
+# 01 = bold
+# 04 = underscore
+# 05 = blink
+# 07 = reverse
+# 08 = concealed
+# Text color codes:
+# 30 = black
+# 31 = red
+# 32 = green
+# 33 = yellow
+# 34 = blue
+# 35 = magenta
+# 36 = cyan
+# 37 = white
+# Background color codes:
+# 40 = black
+# 41 = red
+# 42 = green
+# 43 = yellow
+# 44 = blue
+# 45 = magenta
+# 46 = cyan
+# 47 = white
+
+# Below are the color init strings for the file types.
+# The format is: FILE_TYPE color_code
+NORMAL 00;223 # Global default, although everything should be something.
+FILE 00;223 # Normal file
+DIR 01;66 # Directory
+LINK 01;72 # Symbolic link.  (If you set this to 'target' instead of a
+# numerical value, the color is as for the file pointed to.)
+FIFO 00;172 # Named pipe (FIFO)
+SOCK 01;132 # Socket
+DOOR 01;124 # Door
+BLK 01;166 # Block device driver
+CHR 01;166 # Character device driver
+ORPHAN 01;167 # Symlink to nonexistent file, or non-stat'able file
+MISSING 01;167 # ... and the files they point to
+
+# This is for files with execute permission:
+EXEC 01;142
+
+# List of file extensions and their associated colors
+.tar 00;172
+.tgz 00;172
+.arc 00;172
+.arj 00;172
+.taz 00;172
+.lzh 00;172
+.zip 00;172
+.z 00;172
+.Z 00;172
+.gz 00;172
+.bz2 00;172
+.bz 00;172
+.tbz 00;172
+.tbz2 00;172
+.tz 00;172
+.deb 00;172
+.rpm 00;172
+.jar 00;172
+.war 00;172
+.ear 00;172
+.sar 00;172
+.rar 00;172
+.ace 00;172
+.zoo 00;172
+.cpio 00;172
+.7z 00;172
+.rz 00;172
+
+# Image formats
+.jpg 00;109
+.jpeg 00;109
+.gif 00;109
+.bmp 00;109
+.pbm 00;109
+.pgm 00;109
+.ppm 00;109
+.tga 00;109
+.xbm 00;109
+.xpm 00;109
+.tif 00;109
+.tiff 00;109
+.png 00;109
+.svg 00;109
+.svgz 00;109
+.mng 00;109
+.pcx 00;109
+.mov 00;109
+.mpg 00;109
+.mpeg 00;109
+.m2v 00;109
+.mkv 00;109
+.ogm 00;109
+.mp4 00;109
+.m4v 00;109
+.mp4v 00;109
+.vob 00;109
+.qt 00;109
+.nuv 00;109
+.wmv 00;109
+.asf 00;109
+.rm 00;109
+.rmvb 00;109
+.flc 00;109
+.avi 00;109
+.fli 00;109
+.flv 00;109
+.gl 00;109
+.dl 00;109
+.xcf 00;109
+.xwd 00;109
+.yuv 00;109
+.cgm 00;109
+.emf 00;109
+.axv 00;109
+.anx 00;109
+.ogv 00;109
+.ogx 00;109
+
+# Audio formats
+.aac 00;175
+.au 00;175
+.flac 00;175
+.mid 00;175
+.midi 00;175
+.mka 00;175
+.mp3 00;175
+.mpc 00;175
+.ogg 00;175
+.ra 00;175
+.wav 00;175
+
+# Document formats
+.pdf 00;167
+.ps 00;167
+.eps 00;167
+.tex 00;167
+.doc 00;167
+.docx 00;167
+.xls 00;167
+.xlsx 00;167
+.ppt 00;167
+.pptx 00;167
+.odt 00;167
+.ods 00;167
+.odp 00;167
+.csv 00;167
+.tsv 00;167
+.tex 00;167
+.log 00;167
+
