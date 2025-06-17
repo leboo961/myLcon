@@ -1,162 +1,251 @@
+# Gruvbox Dark Theme for GNU dircolors
+# This file can be used with `eval "$(dircolors -b ~/.dircolors)"`
 
-# Begin .dircolors
-# Configuration file for dircolors, a utility to help you set the
-# LS_COLORS environment variable used by GNU ls with the --color option.
+# Gruvbox Palette (Dark)
+# Red:      #fb4934  (bright_red)
+# Green:    #b8bb26  (bright_green)
+# Yellow:   #fabd2f  (bright_yellow)
+# Blue:     #83a598  (bright_blue)
+# Magenta:  #d3869b  (bright_magenta)
+# Cyan:     #8ec07c  (bright_cyan)
+# Orange:   #fe8019  (bright_orange - not a standard ANSI color, using bright_yellow for now for better compatibility)
 
-# Below are the color init strings for the basic file types. A color init
-# string consists of one or more of the following numeric codes:
-# Attribute codes:
-# 00 = none
-# 01 = bold
-# 04 = underscore
-# 05 = blink
-# 07 = reverse
-# 08 = concealed
-# Text color codes:
-# 30 = black
-# 31 = red
-# 32 = green
-# 33 = yellow
-# 34 = blue
-# 35 = magenta
-# 36 = cyan
-# 37 = white
-# Background color codes:
-# 40 = black
-# 41 = red
-# 42 = green
-# 43 = yellow
-# 44 = blue
-# 45 = magenta
-# 46 = cyan
-# 47 = white
+# Basic Colors (ANSI)
+# 0 = normal
+# 1 = bold
+# 4 = underline
+# 5 = blink (avoid, annoying)
+# 7 = reverse
+# 8 = concealed
+# 30-37 = foreground colors
+# 40-47 = background colors
+# 90-97 = bright foreground colors
+# 100-107 = bright background colors
 
-# Below are the color init strings for the file types.
-# The format is: FILE_TYPE color_code
-NORMAL 00;223 # Global default, although everything should be something.
-FILE 00;223 # Normal file
-DIR 01;66 # Directory
-LINK 01;72 # Symbolic link.  (If you set this to 'target' instead of a
-# numerical value, the color is as for the file pointed to.)
-FIFO 00;172 # Named pipe (FIFO)
-SOCK 01;132 # Socket
-DOOR 01;124 # Door
-BLK 01;166 # Block device driver
-CHR 01;166 # Character device driver
-ORPHAN 01;167 # Symlink to nonexistent file, or non-stat'able file
-MISSING 01;167 # ... and the files they point to
+# Gruvbox uses a custom palette often outside of standard 8-color ANSI.
+# For .dircolors, we map to the closest ANSI 256 colors if possible,
+# or standard 8/16 colors for broader compatibility.
 
-# This is for files with execute permission:
-EXEC 01;142
+# Using 256-color codes for better Gruvbox representation:
+# Foreground: 38;5;COLOR_CODE
+# Background: 48;5;COLOR_CODE
 
-# List of file extensions and their associated colors
-.tar 00;172
-.tgz 00;172
-.arc 00;172
-.arj 00;172
-.taz 00;172
-.lzh 00;172
-.zip 00;172
-.z 00;172
-.Z 00;172
-.gz 00;172
-.bz2 00;172
-.bz 00;172
-.tbz 00;172
-.tbz2 00;172
-.tz 00;172
-.deb 00;172
-.rpm 00;172
-.jar 00;172
-.war 00;172
-.ear 00;172
-.sar 00;172
-.rar 00;172
-.ace 00;172
-.zoo 00;172
-.cpio 00;172
-.7z 00;172
-.rz 00;172
+# Gruvbox Hex to 256-color approximation (adjust if your terminal has a different mapping)
+# dark0_hard:   #1d2021 -> 234
+# dark0:        #282828 -> 235
+# dark0_soft:   #32302f -> 236
+# dark1:        #3c3836 -> 237
+# dark2:        #504945 -> 239
+# dark3:        #665c54 -> 241
+# dark4:        #7c6f64 -> 243
 
-# Image formats
-.jpg 00;109
-.jpeg 00;109
-.gif 00;109
-.bmp 00;109
-.pbm 00;109
-.pgm 00;109
-.ppm 00;109
-.tga 00;109
-.xbm 00;109
-.xpm 00;109
-.tif 00;109
-.tiff 00;109
-.png 00;109
-.svg 00;109
-.svgz 00;109
-.mng 00;109
-.pcx 00;109
-.mov 00;109
-.mpg 00;109
-.mpeg 00;109
-.m2v 00;109
-.mkv 00;109
-.ogm 00;109
-.mp4 00;109
-.m4v 00;109
-.mp4v 00;109
-.vob 00;109
-.qt 00;109
-.nuv 00;109
-.wmv 00;109
-.asf 00;109
-.rm 00;109
-.rmvb 00;109
-.flc 00;109
-.avi 00;109
-.fli 00;109
-.flv 00;109
-.gl 00;109
-.dl 00;109
-.xcf 00;109
-.xwd 00;109
-.yuv 00;109
-.cgm 00;109
-.emf 00;109
-.axv 00;109
-.anx 00;109
-.ogv 00;109
-.ogx 00;109
+# light0_hard:  #f9f5d7 -> 230
+# light0:       #fbf1c7 -> 229
+# light0_soft:  #f2e5bc -> 228
+# light1:       #ebdbb2 -> 223
+# light2:       #d5c4a1 -> 187
+# light3:       #bdae93 -> 145
+# light4:       #a89984 -> 101
 
-# Audio formats
-.aac 00;175
-.au 00;175
-.flac 00;175
-.mid 00;175
-.midi 00;175
-.mka 00;175
-.mp3 00;175
-.mpc 00;175
-.ogg 00;175
-.ra 00;175
-.wav 00;175
+# Red:          #fb4934 -> 167 (FG), 124 (for less bright FG), 1
+# Green:        #b8bb26 -> 142 (FG), 2 (standard green)
+# Yellow:       #fabd2f -> 214 (FG), 3 (standard yellow)
+# Blue:         #83a598 -> 109 (FG), 4 (standard blue)
+# Magenta:      #d3869b -> 175 (FG), 5 (standard magenta)
+# Cyan:         #8ec07c -> 108 (FG), 6 (standard cyan)
+# Orange:       #fe8019 -> 208 (FG), 3 (standard yellow for bright orange fallback)
 
-# Document formats
-.pdf 00;167
-.ps 00;167
-.eps 00;167
-.tex 00;167
-.doc 00;167
-.docx 00;167
-.xls 00;167
-.xlsx 00;167
-.ppt 00;167
-.pptx 00;167
-.odt 00;167
-.ods 00;167
-.odp 00;167
-.csv 00;167
-.tsv 00;167
-.tex 00;167
-.log 00;167
+# Reset to normal
+TERMUX_LS_COLORS_NORMAL 0
+# Define the Gruvbox colors using 256-color codes (FG_256;BG_256)
+# If your terminal doesn't support 256 colors well, you might need to
+# simplify these to 01;3x or 01;9x codes.
+
+# This uses a blend of standard bold ANSI (9x) and 256-colors (38;5;X) for common types,
+# aiming for good readability and Gruvbox feel.
+
+# Normal file: default terminal colors
+NORMAL 00
+
+# Directory: bold blue (gruvbox blue)
+#DIR 01;38;5;66
+DIR 01;38;5;109
+
+# Symbolic link: bold cyan (gruvbox cyan)
+LINK 01;38;5;108
+
+# FIFO (Named pipe): bold yellow (gruvbox yellow)
+FIFO 01;38;5;214
+
+# Socket: bold magenta (gruvbox magenta)
+SOCK 01;38;5;175
+
+# Block device: bold red with background (gruvbox red)
+BLK 01;38;5;167;48;5;236 # Red FG, dark3 BG
+
+# Character device: bold red with background (gruvbox red)
+CHR 01;38;5;167;48;5;236 # Red FG, dark3 BG
+
+# Executable: bold green (gruvbox green)
+EXEC 01;38;5;142
+
+# Orphaned symbolic link (points to non-existent file): bold red with background
+ORPHAN 01;38;5;167;48;5;236
+
+# Missing file (pointed to by symlink but not found): bold red with background
+MISSING 01;38;5;167;48;5;236
+
+# Setuid file (s-bit set): bold red foreground, dark background
+SETUID 01;38;5;167;48;5;236
+
+# Setgid file (s-bit set): bold yellow foreground, dark background
+SETGID 01;38;5;214;48;5;236
+
+# Writable by others, sticky: black foreground on red background (very visible)
+STICKY_OTHER_WRITABLE 30;48;5;167
+
+# Writable by others, no sticky: black foreground on red background
+OTHER_WRITABLE 30;48;5;167
+
+# Sticky bit set (on directory), but not other writable: bold green (like dir but brighter)
+STICKY 01;38;5;142
+
+# No permissions: greyed out (dark4)
+NO_PERMS 38;5;243
+
+# Types of files based on extension
+
+# Archives (.zip, .tar, .tgz, .gz, .bz2, .Z, .rpm, .deb, .iso, .jar, .rar, .7z)
+# Using a bold orange/yellow color
+ARCHIVE 01;38;5;208
+
+# Audio files (.mp3, .flac, .wav, .ogg, .m4a, .aac)
+# Using magenta
+AUDIO 38;5;175
+
+# Image files (.jpg, .jpeg, .png, .gif, .bmp, .tiff, .svg, .webp)
+# Using cyan
+IMAGE 38;5;108
+
+# Video files (.mp4, .mkv, .avi, .mov, .wmv, .flv)
+# Using magenta
+VIDEO 38;5;175
+
+# Documents (.pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .odt, .ods, .odp)
+# Using a specific light blue/green tone
+DOC 38;5;109
+
+# Temporary files, backups, logs (often muted)
+# Using dark gray for dimming
+TMP 38;5;243
+LOG 38;5;243
+BAK 38;5;243
+
+# Common programming/markup languages (can customize further if desired)
+# HTML, XML
+.html 38;5;109
+.xml 38;5;109
+# CSS
+.css 38;5;108
+# JavaScript
+.js 38;5;214
+# Python
+.py 38;5;142
+# C/C++
+.c 38;5;109
+.h 38;5;109
+.cpp 38;5;109
+.hpp 38;5;109
+# Markdown
+.md 38;5;243
+
+# Specify colors for various file extensions based on Gruvbox palette
+
+# Executables (if not already caught by EXEC):
+.com 01;38;5;142
+.exe 01;38;5;142
+.bin 01;38;5;142
+.sh 01;38;5;142
+.pl 01;38;5;142
+.py 01;38;5;142
+.rb 01;38;5;142
+
+# Archives
+.zip 38;5;208
+.tgz 38;5;208
+.gz 38;5;208
+.bz2 38;5;208
+.xz 38;5;208
+.Z 38;5;208
+.tar 38;5;208
+.rpm 38;5;208
+.deb 38;5;208
+.iso 38;5;208
+.jar 38;5;208
+.rar 38;5;208
+.7z 38;5;208
+
+# Images
+.jpg 38;5;108
+.jpeg 38;5;108
+.png 38;5;108
+.gif 38;5;108
+.bmp 38;5;108
+.tiff 38;5;108
+.tif 38;5;108
+.svg 38;5;108
+.webp 38;5;108
+
+# Audio
+.mp3 38;5;175
+.flac 38;5;175
+.wav 38;5;175
+.ogg 38;5;175
+.m4a 38;5;175
+.aac 38;5;175
+
+# Video
+.mp4 38;5;175
+.mkv 38;5;175
+.avi 38;5;175
+.mov 38;5;175
+.wmv 38;5;175
+.flv 38;5;175
+
+# Documents
+.pdf 38;5;109
+.doc 38;5;109
+.docx 38;5;109
+.xls 38;5;109
+.xlsx 38;5;109
+.ppt 38;5;109
+.pptx 38;5;109
+.odt 38;5;109
+.ods 38;5;109
+.odp 38;5;109
+
+# Configuration files (often in a muted color)
+.conf 38;5;243
+.cfg 38;5;243
+.ini 38;5;243
+.json 38;5;243
+.yaml 38;5;243
+.yml 38;5;243
+
+# Text files (default, or slightly muted)
+.txt 38;5;250
+
+# Font files
+.ttf 38;5;214
+.otf 38;5;214
+.woff 38;5;214
+.woff2 38;5;214
+
+# Databases
+.sql 38;5;142
+.db 38;5;142
+
+# System files (if not executable)
+.deb 38;5;208
+.rpm 38;5;208
 

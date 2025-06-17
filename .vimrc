@@ -1,39 +1,36 @@
 set nocompatible        " first thing to do is to turn this option of.
                         "If on, all vim  enhancement and improvment are
+                        "
                         "turned off and vim is set to be compatible with vi
 filetype off
 "
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-"
-call vundle#begin()
-"
+call plug#begin()
 "    layout plugins
-"
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'joshdick/onedark.vim'                """ Atom style color scheme
-Plugin 'itchyny/lightline.vim'
-Plugin 'petrushka/vim-opencl'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'morhetz/gruvbox'
+Plug 'itchyny/lightline.vim'
+Plug 'petrushka/vim-opencl' , {'for' : 'opencl'}
 "
 "    productivity plugins
-"
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'majutsushi/tagbar'                   """ best thing similar to a minimap in vim
-"Plugin 'OmniCppComplete'
-Plugin 'scrooloose/syntastic'
-Plugin 'doxygen/doxygen'
+Plug 'scrooloose/nerdcommenter'
+Plug 'majutsushi/tagbar'                   """ best thing similar to a minimap in vim
+Plug 'scrooloose/syntastic'
+Plug 'doxygen/doxygen'
 "
 " Autocomplete
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "
-"Plugin 'neoclide/coc.nvim', {'branch': 'release'}
-""
-call vundle#end()
+Plug 'github/copilot.vim'
+"
+call plug#end()
 "
 filetype plugin indent on       " load specific filetype detection, plugin and indent  => so later give right syntax, etc...`
 let g:ft_ignore_pat = '\.\(Z\|gz\|bz2\|zip\|tgz\)$'     " ignore inspection of certain file type
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o,*.a,*.so,*.pyc,*.swp,.git/,    "specify filename patterns that should be ignored when searching for files,
                                                                             "for example when using the find command
 syntax on
+let mapleader=" "
+let g:maplocalleader=";"
 "
 " tab Configuration
 "
@@ -74,70 +71,15 @@ set statusline+=%#warningmsg#
 set statusline+=%*
 set laststatus=2        " show the status line
 set noshowmode          " disable the show mode because it is appearing in the statusline defined above
-set shortmess=atToO
 set backspace=indent,eol,start
-"
-" Basic autocomplete Configuration
-"
-"set omnifunc=syntaxcomplete#Complete
-function! SetCppOmnifunc()
-     "OmniCppComplete
-     set tags+=~/.vim/tags/cpp
-     set omnifunc=omni#cpp#complete#Main
-     let OmniCpp_NamespaceSearch = 1
-     let OmniCpp_GlobalScopeSearch = 1
-     let OmniCpp_ShowAccess = 1
-     let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-     let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-     let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-     let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-     let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
-     " automatically open and close the popup menu / preview window
-     au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-     set completeopt=menuone,menu,longest,preview
-endfunction
-"
-function! SetPyOmnifunc()
-     "OmniCppComplete
-     "set tags+=~/.vim/tags/cpp
-     "set omnifunc=omni#cpp#complete#Main
-     "let OmniCpp_NamespaceSearch = 1
-     "let OmniCpp_GlobalScopeSearch = 1
-     "let OmniCpp_ShowAccess = 1
-     "let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-     "let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-     "let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-     "let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-     set omnifunc=pythoncomplete#Complete
-     set completeopt=menuone,menu,longest,preview
-     "echo expand('<cword>')
-     "return command <C><C-o>
-     "if(expand('<cword>')=='.')
-         "return <C-x><C-o>
-     " automatically open and close the popup menu / preview window
-     au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-endfunction
-"
+set completeopt=menuone,noinsert
+set shortmess=atToOc
 
-" status line
-"
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'fugitive#head'
-      \ },
-      \ }
-"
 " colorscheme config
 "
-let g:onedark_termcolors=256
-let g:onedark_terminal_italics=1
-colorscheme onedark
-hi Normal guibg=NONE ctermbg=NONE "for a transparent background with st terminal
+colorscheme gruvbox
+""hi Normal guibg=NONE ctermbg=NONE "for a transparent background with st terminal
+set bg=dark
 set t_co=256
 set t_ut=
 "
@@ -154,14 +96,12 @@ tnoremap <C-h> <C-w>h
 tnoremap <C-j> <C-w>j
 tnoremap <C-k> <C-w>k
 "
-"
 " Mouse Configuration
 "
 set mouse=a
 "
 " Search Configuration in a file
 "
-" set ignorecase is set just for fortran files
 set incsearch   " search as characters are entered
 set hlsearch    " highlight matches
 set smartcase   " uppercase causes case-sensitive search
@@ -185,6 +125,17 @@ let g:netrw_bufsettings ='rnu'
 let g:netrw_list_hide= '^\..*,.git/$'
 "let g:netrw_list_hide=  netrw_gitignore#Hide().'.*\.swp$''.git$'
 "
+let g:lightline = {
+      \ 'colorscheme': 'gruvbox',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'filename', 'readonly', 'gitbranch', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'GitBranch'
+      \ },
+      \ }
+"
 " fuzzy file search
 "
 set path+=**,../src,../include,src/,include/
@@ -197,50 +148,41 @@ set tags+=~/.vim/tags/gl
 set tags+=~/.vim/tags/sdl
 set tags+=~/.vim/tags/qt4
 "
-" autocomplete
-"
-let OmniCpp_NamespaceSearch = 1
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_ShowAccess = 1
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
-set omnifunc=syntaxcomplete#Complete
-set completeopt=longest,menuone,preview
-let g:ycm_server_python_interpreter='/usr/bin/python3.7'
-"
-"
 " mapping
-"
 "
 inoremap {      {}<Left>
 inoremap {<CR>  {<CR>}<Esc>O
 inoremap {{     {
 inoremap {}     {}
+
 inoremap (      ()<Left>
 inoremap (<CR>  (<CR>)<Esc>O
 inoremap ((     (
 inoremap ()     ()
+
+inoremap [      []<Left>
+inoremap [<CR>  [<CR>]<Esc>O
+inoremap [[     [
+inoremap []      []
+
 inoremap '      ''<Left>
 inoremap '<CR>  '<CR>'<Esc>O
 inoremap ''     '
 inoremap ''     ''
+
 inoremap "      ""<Left>
 inoremap "<CR>  "<CR>"<Esc>O
-inoremap ""     {
+inoremap ""     "
 inoremap ""     ""
 "
 " terminal mode mapping
 "
 tnoremap <Esc> <C-\><C-n>
-"nnoremap <leader>t :call ToggleTerminal()
 nnoremap <leader>t :call ToggleTerminal()<CR>
 ""
 "
 " easier mapping for special register copy/paste
-"
+":
 nnoremap <leader>y "+Y
 nnoremap <leader>p "+P
 "
@@ -273,8 +215,28 @@ nnoremap `fpm  :-1read !sed -n -e '50,54p' ~/.vim/snippets/fortran.snippets<CR>1
 nnoremap `pyc  :-1read !sed -n -e '3,20p'  ~/.vim/snippets/python.snippets<CR>1kf(a
 nnoremap `pyf  :-1read !sed -n -e '22,26p' ~/.vim/snippets/python.snippets<CR>1kf(a
 nnoremap `pym  :-1read !sed -n -e '28,30p' ~/.vim/snippets/python.snippets<CR>1ka
+
+
+
+if executable('rg')
+    set grepprg=rg\ --color=auto\ --no-heading\ --smart-case
+else
+    set grepprg=grep\ --color=always\ -nH
+endif
+set grepformat=%f:%l:%c:%m
+command! -nargs=+ Grep execute 'silent grep! . -e <args>' | copen | redraw
+"nnoremap <leader>g :grep <c-r>=expand("<cword>")<cr><cr><cr>
+nnoremap <leader>g :grep! "\b<C-R><C-W>\b" `find . -type f -readable`<CR>:copen<CR>
+
+
 "
-"       Function to customize some functionnalities
+" Function to customize some functionnalities
+"
+function! GitBranch()
+	let l:branch = system('git rev-parse --abbrev-ref HEAD 2>/dev/null')
+	return strlen(l:branch) ? ' ' . substitute(l:branch, '\n', '', '') : ''
+endfunction
+
 "       spell check enable only for tex and markdown file
 "
 function! SetupForTex()
@@ -325,7 +287,56 @@ function! ToggleTerminal()
                         \ })
     endif
 endfunction
-"
+
+if !exists('g:git_roots_per_buffer')
+    let g:git_roots_per_buffer = {}
+endif
+
+function! s:UpdatePath()
+    if &buftype !=# '' || &readonly | return | endif
+
+    let l:current_buf_id = bufnr('%')
+    let l:git_root = ''
+    let l:old_cwd = getcwd()
+    execute 'cd' fnameescape(expand('%:p:h'))
+    let l:git_toplevel_output = trim(system('git rev-parse --show-toplevel 2>/dev/null'))
+    execute 'cd' fnameescape(l:old_cwd)
+
+    if !empty(l:git_toplevel_output) && isdirectory(l:git_toplevel_output)
+        let l:git_root = l:git_toplevel_output
+    endif
+
+    if !empty(l:git_root)
+        let l:path_to_add = l:git_root . '/**'
+        if index(split(&path, ','), l:path_to_add) < 0
+            let &path = l:path_to_add . ',' . &path
+        endif
+        let g:git_roots_per_buffer[string(l:current_buf_id)] = l:path_to_add
+    elseif has_key(g:git_roots_per_buffer, string(l:current_buf_id))
+        call remove(g:git_roots_per_buffer, string(l:current_buf_id))
+    endif
+endfunction
+
+function! s:CleanupPathOnBufQuit()
+    let l:quitting_buf_id = bufnr('%')
+    let l:path_to_remove = ''
+
+    if has_key(g:git_roots_per_buffer, string(l:quitting_buf_id))
+        let l:path_to_remove = g:git_roots_per_buffer[string(l:quitting_buf_id)]
+        call remove(g:git_roots_per_buffer, string(l:quitting_buf_id))
+
+        let l:path_still_in_use = 0
+        for [buf_id, path_val] in items(g:git_roots_per_buffer)
+            if path_val ==# l:path_to_remove | let l:path_still_in_use = 1 | break | endif
+        endfor
+
+        if !l:path_still_in_use
+            let l:current_path_list = split(&path, ',')
+            let &path = join(filter(l:current_path_list, 'v:val !=# l:path_to_remove'), ',')
+        endif
+    endif
+endfunction
+
 "
 " Configuration depending on filetype
 "
@@ -337,22 +348,25 @@ augroup configgroup
     autocmd FileType Makefile setlocal noexpandtab
     autocmd Filetype tex call SetupForTex()
     autocmd Filetype markdown  call SetupFor_md()
-    "autocmd Filetype markdown  let maplocalleader=','; call SetupFor_md()
     autocmd FileType c,cpp,java set mps+==:;
     autocmd FileType html,cpp set mps+=<:>
     autocmd FileType pdf  nmap p :command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> - |fmt -csw78
-    au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
-    au bufnewfile,bufread,bufenter,FileType python let Omnipython_MayCompleteDot=1
-    "autocmd FileType *
+    autocmd QuickFixCmdPre grep silent! copen
+augroup end
+
+augroup pathBasicCompletion
+    autocmd InsertCharPre * call feedkeys("\<C-x>\<C-f>", 'n')
+    autocmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+augroup end
+
+augroup pathManagement
+    autocmd!
+    autocmd BufEnter,BufReadPost * call s:UpdatePath()
+    autocmd BufUnload * call s:CleanupPathOnBufQuit()
 augroup end
 " opens search results in a window w/ links and highlight the matches
-"set grepprg=rg\ -n
-set grepprg=grep\ --color=always\ -n\ $*\
 "command! -nargs=+ Grep execute 'silent rg! . -e <args>' | copen | execute 'silent /<args>'
 "command! -nargs=+ Grep execute 'silent grep! . -e <args>' | copen | execute 'silent /<args>'
 "command! -nargs=+ Grep execute 'silent grep! -I -r -n --exclude-dir=git --exclude *.{json,pyc} . -e <args>' | copen | execute 'silent /<args>'
 " shift-control-* Greps for the word under the cursor
-:nmap <leader>g :grep <c-r>=expand("<cword>")<cr><cr>
 
-"let maplocalleader="\;"
-let g:maplocalleader=";"
