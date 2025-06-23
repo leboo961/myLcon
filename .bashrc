@@ -161,47 +161,76 @@ PS1+="${COLOR_GIT}\$(parse_git_branch)${COLOR_RESET}\$ "
 # Add SSH info if connected via SSH
 [[ -n "$SSH_CONNECTION" ]] && PS1+="${COLOR_GIT}SSH${COLOR_RESET}]\$ "
 
+f() {
+    local use_fd=false
+    if type fd &>/dev/null; then
+        use_fd=true
+    fi
+
+    if "$use_fd"; then
+        fd --type f --follow --strip-cwd-prefix "$@"
+    else
+        find . \
+            \( \
+                -path './.git/*' -o \
+                -path './node_modules/*' -o \
+                -path '*/\.*' -o \
+                -fstype 'sysfs' -o \
+                -fstype 'proc' -o \
+                -fstype 'devtmpfs' -o \
+                -fstype 'devpts' \
+            \) -prune -o \
+            -type f -print -L "$@" 2>/dev/null | sed 's/^\.\///'
+    fi
+}
 
 # fzf settings and keybindings
 # Check if fzf is installed
 if command -v fzf >/dev/null 2>&1; then
-  # Key bindings (Ctrl+R and others)
-  [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-  [ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && source /usr/share/doc/fzf/examples/key-bindings.bash
+    # --- Determine the best file previewer (batcat > bat > cat) ---
+    FZF_PREVIEW_CMD=""
+    if type batcat &>/dev/null; then
+        export BAT_THEME='gruvbox-dark' # Set bat theme
+        FZF_PREVIEW_CMD="batcat --style=numbers --color=always --line-range :500 {}"
+    elif type bat &>/dev/null; then
+        # Fixed the -r option to --line-range
+        FZF_PREVIEW_CMD="bat --style=full --color=always --line-range :500 {}"
+    else
+        FZF_PREVIEW_CMD="cat {}"
+    fi
+    export FZF_PREVIEW_CMD
 
-  # Use fzf for Ctrl+R to search through command history
-  bind '"\C-r": " \C-e\C-u`__fzf_history__`\e\C-e\er"'
+    # FZF command history search options
+    export FZF_CTRL_R_OPTS="--tac --no-sort"
+    export FZF_DEFAULT_OPTS="--layout=reverse --height 40% --border"
 
-  # Custom fzf command for file and directory completion
-  _fzf_complete() {
-    _fzf_complete --reverse --multi --preview 'cat {}' --preview-window=down:3:wrap --height 40% "$@" < <(
-      find . \( -path '*/\.*' -o -fstype 'sysfs' -o -fstype 'proc' \) -prune \
-      -o -type f -print 2> /dev/null | sed 's/^..//'
-    )
-  }
+    # --- FZF Key bindings and completion setup ---
+    # Use 'eval "$(fzf --bash)"' as the primary method.
+    # It usually sets up Ctrl+R, Alt+C, Ctrl+T, and fuzzy completion.
+    # Remove redundant 'source' commands for key-bindings.bash and completion.bash.
+    eval "$(fzf --bash)"
 
-  _fzf_complete_post() {
-    awk '{print $NF}'
-  }
+    # --- Custom fzf command for file search (Ctrl+F) ---
+    _fzf_find(){
+        selected_file=$(f | fzf --multi --preview "${FZF_PREVIEW_CMD}" --preview-window=right:50%:wrap )
+        if [ -n "$selected_file" ]; then
+            READLINE_LINE="$READLINE_LINE$selected_file"
+            READLINE_POINT="${#READLINE_LINE}" # Move cursor to the end of the line
+        fi
+    }
 
-  bind -x '"\C-f": fzf-file-widget'
+    # Bind Ctrl+F to your custom file search function
+    bind -x '"\C-f": _fzf_find'
+  # Git branch with fzf
+  fbr() {
+      local branches branch
+      branches=$(git branch --all | grep -v HEAD) &&
+          branch=$(echo "$branches" |
+          fzf-tmux -d $(( 2 + $(wc -l <<<"$branches") )) +m) &&
+          git checkout $(echo "$branch" | sed "s/.* //")
+      }
 
-  # Optional: FZF default options, including file preview with bat
-  # Ensure bat is installed for this to work
-
-  export BAT_THEME='gruvbox-dark'
-  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --preview "batcat --style=numbers --color=always {} | head -500"'
 fi
-
-# Git branch with fzf
-fbr() {
-  local branches branch
-  branches=$(git branch --all | grep -v HEAD) &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<<"$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //")
-}
-
 
 #bindings
 bind -x '"\C-l": clear'

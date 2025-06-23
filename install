@@ -10,68 +10,115 @@
 #notes           :dont need root access.
 #-------------------------------------------------------------------
 
+#!/bin/bash
+
+# Function to check if a command is installed
 __check_installed(){
-    hash $1 2>/dev/null
-    [[ $? -eq 1 ]] && {
-        echo $1 "is not installed on your system."
+    hash "$1" 2>/dev/null
+    if [[ $? -ne 0 ]]; then # More robust check for non-zero exit code
+        echo "$1 is not installed on your system."
         echo "Skipping this component, moving to the next"
         return 1
-    }
+    fi
     return 0
 }
 
+# Function to create a symbolic link
+# Usage: __make_link <source_path> <destination_path>
 __make_link(){
-    conf_file=$(basename $1)
-    [[ -e $HOME/$conf_file ]] && {
-        echo "$conf_file already exists"
-        echo "creating backup"
-        mv $HOME/$conf_file $HOME/$conf_file"_bckup"
-    }
-    [[ -h $HOME/$conf_file ]] && rm $HOME/$conf_file
-    ln -s $1 $HOME/$conf_file
+    local source_path="$1"
+    local dest_path="$2"
+    local dest_dir=$(dirname "$dest_path")
+    local conf_file=$(basename "$dest_path")
+
+    # Create destination directory if it doesn't exist
+    if [[ ! -d "$dest_dir" ]]; then
+        echo "Creating directory: $dest_dir"
+        mkdir -p "$dest_dir"
+    fi
+
+    if [[ -e "$dest_path" ]]; then
+        echo "$conf_file already exists at $dest_path"
+        if [[ -h "$dest_path" ]]; then # If it's an existing symlink, remove it
+            echo "Removing existing symbolic link: $dest_path"
+            rm "$dest_path"
+        else # If it's a regular file or directory, create a backup
+            echo "Creating backup of $dest_path to ${dest_path}_bckup"
+            mv "$dest_path" "${dest_path}_bckup"
+        fi
+    fi
+
+    echo "Creating symbolic link from $source_path to $dest_path"
+    ln -s "$source_path" "$dest_path"
     return 0
 }
 
 usage="${0##*/} -- [-h --help]
-    install dotfiles to home directory by creating symbolic links"
+    install dotfiles to home directory by creating symbolic links
+    Options:
+      -h, --help    Show this help message
+      -b            Install .bashrc
+      -g            Install .gitconfig (requires git)
+      -m            Install .tmux.conf (requires tmux)
+      -s            Install .screenrc (requires screen)
+      -t            Install .taskrc (requires task)
+      -v            Install .vimrc (requires vim)
+      -p            Install .zathurarc (requires zathura)
+      -z            Install .zshrc (requires zsh)
+      -L            Install myLcon to ~/.config/myLcon (requires ~/.config/myLcon file in dotfiles repo)
+"
 
-abs_path=$(dirname $(realpath $0))
-while getopts ':hgbvstz' option; do
+abs_path=$(dirname "$(realpath "$0")")
+
+# Parse short options
+# Note: Added 'L' for myLcon and 'm', 'p' to the getopts string
+while getopts ':hgbmpvstzL' option; do
     case "$option" in
         h|help)
             echo -e "$usage" >&2
             exit 1
             ;;
         b)
-            __make_link $abs_path/.bashrc
+            __make_link "$abs_path/.bashrc" "$HOME/.bashrc"
             ;;
         g)
             __check_installed git
-            [[ $? -eq 0 ]] && __make_link $abs_path/.gitconfig
+            [[ $? -eq 0 ]] && __make_link "$abs_path/.gitconfig" "$HOME/.gitconfig"
             ;;
         m)
             __check_installed tmux
-            [[ $? -eq 0 ]] && __make_link $abs_path/.tmux.conf
+            [[ $? -eq 0 ]] && __make_link "$abs_path/.tmux.conf" "$HOME/.tmux.conf"
             ;;
         s)
             __check_installed screen
-            [[ $? -eq 0 ]] && __make_link $abs_path/.screenrc
+            [[ $? -eq 0 ]] && __make_link "$abs_path/.screenrc" "$HOME/.screenrc"
             ;;
         t)
             __check_installed task
-            [[ $? -eq 0 ]] && __make_link $abs_path/.taskrc
+            [[ $? -eq 0 ]] && __make_link "$abs_path/.taskrc" "$HOME/.taskrc"
             ;;
         v)
             __check_installed vim
-            [[ $? -eq 0 ]] && __make_link $abs_path/.vimrc
+            [[ $? -eq 0 ]] && __make_link "$abs_path/.vimrc" "$HOME/.vimrc"
+            curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+                https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
             ;;
         p)
             __check_installed zathura
-            [[ $? -eq 0 ]] && __make_link $abs_path/.zathurarc
+            [[ $? -eq 0 ]] && __make_link "$abs_path/.zathurarc" "$HOME/.zathurarc"
             ;;
         z)
             __check_installed zsh
-            [[ $? -eq 0 ]] && __make_link $abs_path/.zshrc
+            [[ $? -eq 0 ]] && __make_link "$abs_path/.zshrc" "$HOME/.zshrc"
+            ;;
+        L) # New option for myLcon
+            # Check if the source file exists in your dotfiles repository
+            if [[ -f "$abs_path/.config/myLcon" ]]; then
+                __make_link "$abs_path/.config/myLcon" "$HOME/.config/myLcon"
+            else
+                echo "Error: Source file '$abs_path/.config/myLcon' not found."
+                echo "Please ensure you have a 'myLcon' file inside a '.config' directory in your dotfiles."
+            fi
             ;;
         *)
             echo -e " Please launch ${0##*/} -h or --help to show the script usage"
@@ -80,4 +127,4 @@ while getopts ':hgbvstz' option; do
     esac
 done
 
-shift $(($OPTIND -1))
+shift $((OPTIND -1))

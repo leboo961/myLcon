@@ -18,7 +18,7 @@ Plug 'scrooloose/syntastic'
 Plug 'doxygen/doxygen'
 "
 " Autocomplete
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "
 Plug 'github/copilot.vim'
 "
