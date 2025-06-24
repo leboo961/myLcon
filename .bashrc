@@ -170,7 +170,7 @@ f() {
     if "$use_fd"; then
         fd --type f --follow --strip-cwd-prefix "$@"
     else
-        find . \
+        find -L . \
             \( \
                 -path './.git/*' -o \
                 -path './node_modules/*' -o \
@@ -180,7 +180,7 @@ f() {
                 -fstype 'devtmpfs' -o \
                 -fstype 'devpts' \
             \) -prune -o \
-            -type f -print -L "$@" 2>/dev/null | sed 's/^\.\///'
+            -type f -print "$@" 2>/dev/null | sed 's/^\.\///'
     fi
 }
 
